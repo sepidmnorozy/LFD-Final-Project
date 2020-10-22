@@ -34,7 +34,7 @@ for i in range(1, 24):
 file_names.append("COP6a.filt3.sub.json")
 
 #file = open("./GoogleNews-vectors-negative300.bin", "rb")
-wvmodel = gensim.models.KeyedVectors.load_word2vec_format("/home/s4580427/word2vec/GoogleNews-vectors-negative300.bin", binary=True)
+wvmodel = gensim.models.KeyedVectors.load_word2vec_format("GoogleNews-vectors-negative300.bin", binary=True)
 
 w2v_embeddings = []
 article_embedding = {"path": "", "vector": ""}
