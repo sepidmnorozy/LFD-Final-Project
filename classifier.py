@@ -1,15 +1,36 @@
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.pipeline import Pipeline
-
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
-from sklearn.metrics import confusion_matrix, plot_confusion_matrix
+from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
+import json
+
+def load_data(x,y):
+    # Opening JSON file
+    f = open(x, "r")
+    # returns JSON object as a dictionary
+    data = json.load(f)
+    # Iterating through the json list
+    embeddings = []
+    labels = []
+    for article in data:
+        embeddings.append(article["vector"])
+    # opening JSON file for labels
+    label = json.load(open(y, 'r'))
+    for article in label:
+        labels.append(article["label"])
+    return embeddings, labels
+
+
 
 
 # get data
 
-#Xtrain =
-#Ytrain =
+X, Y = load_data("NON_US_res.json", "non-us-labels.json")
+split_point = int(0.75 * len(X))
+Xtrain = X[:split_point]
+Ytrain = Y[:split_point]
+Xtest = X[split_point:]
+Ytest = Y[split_point:]
 
 
 # KNeighborsClassifier
@@ -29,3 +50,4 @@ print(classification_report(Ytest, Yguess))
 
 print("confusion_matrix for")
 print(confusion_matrix(Ytest, Yguess))
+
