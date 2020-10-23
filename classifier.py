@@ -2,6 +2,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
+from sklearn.model_selection import KFold
 import json
 
 def load_data(x,y):
@@ -26,11 +27,29 @@ def load_data(x,y):
 # get data
 
 X, Y = load_data("NON_US_res.json", "non-us-labels.json")
-split_point = int(0.75 * len(X))
-Xtrain = X[:split_point]
-Ytrain = Y[:split_point]
-Xtest = X[split_point:]
-Ytest = Y[split_point:]
+kf5 = KFold(n_splits=5, shuffle=False)
+rn = range(0,19230)
+accuracy_list = []
+Xtrain_list = []
+Ytrain_list = []
+Xtest_list = []
+Ytest_list = []
+for train_index, test_index in kf5.split(rn):
+    print(train_index, test_index)
+    Xtrain = []
+    Ytrain = []
+    Xtest = []
+    Ytest = []
+    for index in train_index:
+        Xtrain.append(X[index])
+        Ytrain.append(Y[index])
+    Xtrain_list.append(Xtrain)
+    Ytrain_list.append(Ytrain)
+    for index in test_index:
+        Xtest.append(X[index])
+        Ytest.append(Y[index])
+    Xtest_list.append(Xtest)
+    Ytest_list.append(Ytest)
 
 
 # KNeighborsClassifier
